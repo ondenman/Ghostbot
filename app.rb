@@ -33,7 +33,8 @@ end
 tweeter = Tweeter.new
 tweeter.run
 
+# Every half hour, one in three chance of posting tweet
 loop do
   sleep 1800
-  tweeter.run
+  tweeter.run if Random.rand(3) == 0
 end
