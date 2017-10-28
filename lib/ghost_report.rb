@@ -54,6 +54,15 @@ class GhostReport
         preposition,
         town,
         location
+      ],
+      [
+        'BREAKING:',
+        ghost_adjective.capitalize,
+        ghost_noun,
+        'reported',
+        preposition,
+        town,
+        location
       ]
     ].sample
   end
