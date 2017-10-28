@@ -33,4 +33,4 @@ class Tweeter
 end
 
 tweeter = Tweeter.new
-tweeter.run
+tweeter.run if Random.rand(5) == 0
