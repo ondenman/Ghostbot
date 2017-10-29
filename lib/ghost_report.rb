@@ -8,8 +8,8 @@ class GhostReport
 
   def tweet
     [
-      "#{sentence}. #{hash_tags}",
-      "#{sentence}. #{additional_note}. #{hash_tags}"
+      "#{sentence} #{hash_tags}",
+      "#{sentence} #{additional_note} #{hash_tags}"
     ].sample
   end
 
@@ -26,7 +26,7 @@ class GhostReport
   end
 
   def sentence
-    sentence_structure.join(' ')
+    "#{sentence_structure.join(' ')}."
   end
 
   # TODO: Extract this to data file
