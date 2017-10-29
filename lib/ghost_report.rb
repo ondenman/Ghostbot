@@ -49,13 +49,6 @@ class GhostReport
         location
       ],
       [
-        'Hauntings',
-        %w[reported recorded].sample,
-        preposition,
-        town,
-        location
-      ],
-      [
         'BREAKING:',
         ghost_adjective.capitalize,
         ghost_noun,
