@@ -3,6 +3,8 @@ require 'twitter'
 
 Dir['./lib/*.rb'].each { |file| require file }
 
+$stdout.sync = true
+
 class Tweeter
   def run
     rep = GhostReport.new(words)
@@ -32,6 +34,13 @@ class Tweeter
   end
 end
 
+puts 'Running'
 sleep(Random.rand(600))
 tweeter = Tweeter.new
-tweeter.run if Random.rand(5).zero?
+
+if Random.rand(5).zero?
+  tweeter.run
+  puts 'Tweet sent'
+else
+  puts 'No tweet'
+end
