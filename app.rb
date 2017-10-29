@@ -35,10 +35,12 @@ class Tweeter
 end
 
 puts 'Running'
-sleep(Random.rand(600))
-tweeter = Tweeter.new
 
 if Random.rand(5).zero?
+  sleeptime = Random.rand(600)
+  puts "Going to post tweet in #{sleeptime} seconds."
+  sleep(sleeptime)
+  tweeter = Tweeter.new
   tweeter.run
   puts 'Tweet sent'
 else
