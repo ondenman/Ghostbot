@@ -32,5 +32,6 @@ class Tweeter
   end
 end
 
+sleep(Random.rand(600))
 tweeter = Tweeter.new
 tweeter.run if Random.rand(5) == 0
