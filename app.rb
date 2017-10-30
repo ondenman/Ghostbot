@@ -5,14 +5,71 @@ Dir['./lib/*.rb'].each { |file| require file }
 
 $stdout.sync = true
 
-class Tweeter
-  def run
-    rep = GhostReport.new(words)
-    client.update(rep.tweet) if rep.tweet.length <= 140
-    # puts rep.tweet
+module TweetDecorator
+  def tweet
+    structure.map { |i| send(i) }.join(' ')
   end
 
   private
+
+  def structure
+    %i[witness witness_present_verb ghost_adjective
+       ghost_noun preposition town_name location_name]
+  end
+
+  def witness
+    send(:witness_noun).capitalize
+  end
+end
+
+module NoWitnessDecorator
+  include TweetDecorator
+
+  private
+
+  def structure
+    %i[opening ghost_adjective ghost_noun preposition town_name location_name]
+  end
+
+  def opening
+    ['Reports of', 'Sightings of'].sample
+  end
+end
+
+module BreakingStoryDecorator
+  include TweetDecorator
+
+  private
+
+  def structure
+    %i(breaking ghost ghost_noun reported preposition town_name location_name)
+  end
+
+  def breaking
+    'BREAKING:'
+  end
+
+  def ghost
+    send(:ghost_adjective).capitalize
+  end
+
+  def reported
+    %w[reported spotted].sample
+  end
+end
+
+class Tweeter
+  def run
+    rep = GhostReport.new(words: words, decorator: decorator)
+    client.update(rep.full_tweet) if rep.tweet.length <= 140
+    # puts rep.full_tweet
+  end
+
+  private
+
+  def decorator
+    [TweetDecorator, NoWitnessDecorator, BreakingStoryDecorator].sample
+  end
 
   def words
     @words ||= Dir['./data/*'].inject({}) do |h, file|
