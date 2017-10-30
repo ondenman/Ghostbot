@@ -8,7 +8,7 @@ $stdout.sync = true
 class Tweeter
   def run
     rep = GhostReport.new(words)
-    client.update(rep.tweet) if rep.tweet.length <= 144
+    client.update(rep.tweet) if rep.tweet.length <= 140
     # puts rep.tweet
   end
 
