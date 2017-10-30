@@ -26,11 +26,15 @@ class GhostReport
   attr_accessor :words, :sentence_structure
 
   def hash_tags
-    "\##{town_hashtag} \##{town_hashtag}#{location_name.split.map(&:capitalize).join}"
+    "\##{town_hashtag} \##{town_hashtag}#{location_hashtag}"
   end
 
   def town_hashtag
     town_name.gsub(/[^0-9a-z ]/i, '')
+  end
+
+  def location_hashtag
+    location_name.split.map(&:capitalize).join
   end
 
   def singular(plural)
