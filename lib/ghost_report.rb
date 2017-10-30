@@ -1,8 +1,14 @@
 # Represents a UK Ghost Report tweet
 class GhostReport
   def initialize(words)
-    words.keys.each do |k|
-      define_singleton_method(singular(k), -> { words[k].sample })
+    words.each_key do |k|
+      define_singleton_method(singular(k), lambda do
+        if instance_variable_defined?("@#{k}")
+          instance_variable_get("@#{k}")
+        else
+          instance_variable_set("@#{k}", words[k].sample)
+        end
+      end)
     end
   end
 
@@ -18,7 +24,7 @@ class GhostReport
   attr_accessor :words
 
   def hash_tags
-    "\##{town.delete(' ')} \##{town.delete(' ')}#{location.split.map(&:capitalize).join}"
+    "\##{town_name.delete(' ')} \##{town_name.delete(' ')}#{location_name.split.map(&:capitalize).join}"
   end
 
   def singular(plural)
@@ -37,16 +43,16 @@ class GhostReport
         witness_present_verb,
         ghost_adjective,
         ghost_noun, preposition,
-        town,
-        location
+        town_name,
+        location_name
       ],
       [
         ['Reports of', 'Sightings of'].sample,
         ghost_adjective,
         ghost_noun,
         preposition,
-        town,
-        location
+        town_name,
+        location_name
       ],
       [
         'BREAKING:',
@@ -54,23 +60,13 @@ class GhostReport
         ghost_noun,
         'reported',
         preposition,
-        town,
-        location
+        town_name,
+        location_name
       ]
     ].sample
   end
 
   def witness
     witness_noun.capitalize
-  end
-
-  # Need to memoize these otherwise hash tag town and location
-  # differ from those in main tweet content
-  def town
-    @town ||= town_name
-  end
-
-  def location
-    @location ||= location_name
   end
 end
