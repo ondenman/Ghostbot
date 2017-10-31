@@ -1,7 +1,7 @@
 # Represents a UK Ghost Report tweet
 class GhostReport
-  def initialize(words:, decorator:)
-    extend decorator
+  def initialize(words:, strategy:)
+    extend strategy
 
     words.each_key do |k|
       define_singleton_method(singular(k), lambda do

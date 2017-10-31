@@ -5,7 +5,7 @@ Dir['./lib/*.rb'].each { |file| require file }
 
 $stdout.sync = true
 
-module TweetDecorator
+module TweetStrategy
   def tweet
     structure.map { |i| send(i) }.join(' ')
   end
@@ -34,8 +34,8 @@ module TweetDecorator
   end
 end
 
-module NoWitnessDecorator
-  include TweetDecorator
+module NoWitnessStrategy
+  include TweetStrategy
 
   private
 
@@ -48,8 +48,8 @@ module NoWitnessDecorator
   end
 end
 
-module BreakingStoryDecorator
-  include TweetDecorator
+module BreakingStoryStrategy
+  include TweetStrategy
 
   private
 
@@ -70,12 +70,12 @@ module BreakingStoryDecorator
   end
 
   def hash_tags
-    "\##{town_hashtag} \#OnThisDay"
+    "\##{town_hashtag} \#BREAKING"
   end
 end
 
-module HistoricReportDecorator
-  include TweetDecorator
+module HistoricReportStrategy
+  include TweetStrategy
 
   private
 
@@ -114,10 +114,10 @@ end
 
 class Tweeter
   def run
-    tweet = GhostReport.new(words: words, decorator: decorator).full_tweet
+    tweet = GhostReport.new(words: words, strategy: strategy).full_tweet
     loop do
       break if tweet.length <= 140
-      tweet = GhostReport.new(words: words, decorator: decorator).full_tweet
+      tweet = GhostReport.new(words: words, strategy: strategy).full_tweet
     end
     client.update(tweet)
     # puts tweet
@@ -125,8 +125,8 @@ class Tweeter
 
   private
 
-  def decorator
-    [TweetDecorator, NoWitnessDecorator, BreakingStoryDecorator, HistoricReportDecorator].sample
+  def strategy
+    [TweetStrategy, NoWitnessStrategy, BreakingStoryStrategy, HistoricReportStrategy].sample
   end
 
   def words
