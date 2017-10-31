@@ -17,25 +17,13 @@ class GhostReport
   def full_tweet
     [
       "#{tweet}. #{hash_tags}",
-      "#{tweet}. #{additional_note} #{hash_tags}"
+      "#{tweet}. #{additional_note}"
     ].sample
   end
 
   private
 
   attr_accessor :words, :sentence_structure
-
-  def hash_tags
-    "\##{town_hashtag} \##{town_hashtag}#{location_hashtag}"
-  end
-
-  def town_hashtag
-    town_name.gsub(/[^0-9a-z]/i, '')
-  end
-
-  def location_hashtag
-    location_name.split.map(&:capitalize).join
-  end
 
   def singular(plural)
     plural.to_s.chomp('s').to_sym

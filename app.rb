@@ -20,6 +20,18 @@ module TweetDecorator
   def witness
     send(:witness_noun).capitalize
   end
+
+  def hash_tags
+    "\##{town_hashtag} \##{town_hashtag}#{location_hashtag}"
+  end
+
+  def town_hashtag
+    town_name.gsub(/[^0-9a-z]/i, '')
+  end
+
+  def location_hashtag
+    location_name.split.map(&:capitalize).join
+  end
 end
 
 module NoWitnessDecorator
@@ -56,6 +68,10 @@ module BreakingStoryDecorator
   def reported
     %w[reported spotted].sample
   end
+
+  def hash_tags
+    "\##{town_hashtag} \#OnThisDay"
+  end
 end
 
 module HistoricReportDecorator
@@ -89,6 +105,10 @@ module HistoricReportDecorator
 
   def to_date
     Time.now
+  end
+
+  def hash_tags
+    "\##{town_hashtag} \#OnThisDay"
   end
 end
 
