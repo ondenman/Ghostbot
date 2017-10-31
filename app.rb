@@ -74,43 +74,43 @@ module BreakingStoryStrategy
   end
 end
 
-module HistoricReportStrategy
-  include TweetStrategy
+# module HistoricReportStrategy
+#   include TweetStrategy
 
-  private
+#   private
 
-  def structure
-    %i[this_day year ghost witness_past_verb preposition town_name]
-  end
+#   def structure
+#     %i[this_day year ghost witness_past_verb preposition town_name]
+#   end
 
-  def this_day
-    'On this day in'
-  end
+#   def this_day
+#     'On this day in'
+#   end
 
-  def year
-    "#{random_year}:"
-  end
+#   def year
+#     "#{random_year}:"
+#   end
 
-  def ghost
-    "#{ghost_adjective.capitalize} #{ghost_noun}"
-  end
+#   def ghost
+#     "#{ghost_adjective.capitalize} #{ghost_noun}"
+#   end
 
-  def random_year
-    Time.at(from_date + rand * (to_date.to_f - from_date.to_f)).year
-  end
+#   def random_year
+#     Time.at(from_date + rand * (to_date.to_f - from_date.to_f)).year
+#   end
 
-  def from_date
-    Time.local(1977, 1, 1)
-  end
+#   def from_date
+#     Time.local(1977, 1, 1)
+#   end
 
-  def to_date
-    Time.now
-  end
+#   def to_date
+#     Time.now
+#   end
 
-  def hash_tags
-    "\##{town_hashtag} \#OnThisDay"
-  end
-end
+#   def hash_tags
+#     "\##{town_hashtag} \#OnThisDay"
+#   end
+# end
 
 class Tweeter
   def run
@@ -119,14 +119,14 @@ class Tweeter
       break if tweet.length <= 140
       tweet = GhostReport.new(words: words, strategy: strategy).full_tweet
     end
-    client.update(tweet)
-    # puts tweet
+    # client.update(tweet)
+    puts tweet
   end
 
   private
 
   def strategy
-    [TweetStrategy, NoWitnessStrategy, BreakingStoryStrategy, HistoricReportStrategy].sample
+    [TweetStrategy, NoWitnessStrategy, BreakingStoryStrategy].sample
   end
 
   def words
