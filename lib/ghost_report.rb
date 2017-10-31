@@ -30,7 +30,7 @@ class GhostReport
   end
 
   def town_hashtag
-    town_name.gsub(/[^0-9a-z ]/i, '')
+    town_name.gsub(/[^0-9a-z]/i, '')
   end
 
   def location_hashtag
