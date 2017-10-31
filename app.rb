@@ -94,9 +94,13 @@ end
 
 class Tweeter
   def run
-    rep = GhostReport.new(words: words, decorator: decorator)
-    client.update(rep.full_tweet) if rep.tweet.length <= 140
-    # puts rep.full_tweet
+    tweet = GhostReport.new(words: words, decorator: decorator).full_tweet
+    loop do
+      break if tweet.length <= 140
+      tweet = GhostReport.new(words: words, decorator: decorator).full_tweet
+    end
+    client.update(tweet)
+    # puts tweet
   end
 
   private
