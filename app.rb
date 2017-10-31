@@ -58,6 +58,40 @@ module BreakingStoryDecorator
   end
 end
 
+module HistoricReportDecorator
+  include TweetDecorator
+
+  private
+
+  def structure
+    %i[this_day year ghost witness_past_verb preposition town_name]
+  end
+
+  def this_day
+    'On this day in'
+  end
+
+  def year
+    "#{random_year}:"
+  end
+
+  def ghost
+    "#{ghost_adjective.capitalize} #{ghost_noun}"
+  end
+
+  def random_year
+    Time.at(from_date + rand * (to_date.to_f - from_date.to_f)).year
+  end
+
+  def from_date
+    Time.local(1977, 1, 1)
+  end
+
+  def to_date
+    Time.now
+  end
+end
+
 class Tweeter
   def run
     rep = GhostReport.new(words: words, decorator: decorator)
@@ -68,7 +102,7 @@ class Tweeter
   private
 
   def decorator
-    [TweetDecorator, NoWitnessDecorator, BreakingStoryDecorator].sample
+    [TweetDecorator, NoWitnessDecorator, BreakingStoryDecorator, HistoricReportDecorator].sample
   end
 
   def words
