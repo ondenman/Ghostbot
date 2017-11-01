@@ -6,11 +6,19 @@ Dir['./lib/*.rb'].each { |file| require file }
 $stdout.sync = true
 
 module TweetStrategy
-  def tweet
-    structure.map { |i| send(i) }.join(' ')
+
+  def full_tweet
+    [
+      "#{tweet}. #{hash_tags}",
+      "#{tweet}. #{additional_note}"
+    ].sample
   end
 
   private
+
+  def tweet
+    structure.map { |i| send(i) }.join(' ')
+  end
 
   def structure
     %i[witness witness_present_verb ghost_adjective
@@ -119,8 +127,8 @@ class Tweeter
       break if tweet.length <= 140
       tweet = GhostReport.new(words: words, strategy: strategy).full_tweet
     end
-    # client.update(tweet)
-    puts tweet
+    client.update(tweet)
+    # puts tweet
   end
 
   private
