@@ -14,13 +14,6 @@ class GhostReport
     end
   end
 
-  def full_tweet
-    [
-      "#{tweet}. #{hash_tags}",
-      "#{tweet}. #{additional_note}"
-    ].sample
-  end
-
   private
 
   attr_accessor :words, :sentence_structure

@@ -10,7 +10,7 @@ module TweetStrategy
   def full_tweet
     [
       "#{tweet}. #{hash_tags}",
-      "#{tweet}. #{additional_note}"
+      "#{tweet}. #{additional_note} #{hash_tags}"
     ].sample
   end
 
